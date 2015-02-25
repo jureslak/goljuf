@@ -1,0 +1,125 @@
+body {
+  background-color: #eee;
+}
+
+div.main {
+  padding-left: 30px;
+}
+
+table.dist-matrix {
+/*   border: 1px solid #ccc; */
+  border-collapse: collapse;
+}
+table.dist-matrix th {
+  text-align: left;
+  padding: 5px;
+  font-size: 12px;
+}
+table.dist-matrix td {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 12px;
+}
+
+table.dist-matrix td.empty,
+table.dist-matrix th.empty {
+  background: repeating-linear-gradient(
+    -45deg,
+    #dadada,
+    #dadada 3px,
+    #ccc 2px,
+    #ccc 5px
+  );
+}
+
+table.dist-matrix th.levo {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+table.dist-matrix td.A {
+  background-color: #CAFF9F;
+}
+table.dist-matrix td.B {
+  background-color: #D9FF7D;
+}
+table.dist-matrix td.C {
+  background-color: #FFFF79;
+}
+table.dist-matrix td.D {
+  background-color: #FFD862;
+}
+table.dist-matrix td.E {
+  background-color: #FFB17E;
+}
+table.dist-matrix th.hover {
+  background: linear-gradient(to right, #eee, #fff);
+}
+table.dist-matrix th div.hover {
+  background: linear-gradient(#eee, #fff);
+}
+.table-header-rotated td {
+  width: 40px;
+  border-top: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table-header-rotated th.rotate {
+  height: 80px;
+  width: 40px;
+  position: relative;
+  padding: 0;
+  font-size: 12px;
+  line-height: 0.8;
+}
+
+.table-header-rotated th.rotate > div {
+  position: relative;
+  top: 0px;
+  left: 40px;
+  height: 100%;
+  transform: skew(-45deg,0deg);
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+.table-header-rotated th.rotate span {
+  transform:skew(45deg,0deg) rotate(315deg);
+  position: absolute;
+  bottom: 30px;
+  left: -25px;
+  display: inline-block;
+  width: 85px;
+  text-align: left;
+}
+
+hr {
+  border-color: #ccc;
+  width: 900px;
+  margin-left: 0;
+}
+
+a.file {
+  color: #333;
+}
+
+footer {
+   padding-bottom: 20px;
+}
+
+a.showhide {
+  width: 100px;
+  padding: 4px 8px;
+}
+
+table.dist-matrix td span.absolute {
+  font-size: 75%;
+}
+
+div.tablediv {
+  margin-top: 10px;
+}
