@@ -21,6 +21,7 @@ table.dist-matrix td {
   border: 1px solid #ccc;
   text-align: center;
   font-size: 12px;
+  vertical-align: middle;
 }
 
 table.dist-matrix td.empty,
@@ -37,6 +38,7 @@ table.dist-matrix th.empty {
 table.dist-matrix th.levo {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  font-family: monospace;
 }
 table.dist-matrix td.A {
   background-color: #CAFF9F;
@@ -59,25 +61,18 @@ table.dist-matrix th.hover {
 table.dist-matrix th div.hover {
   background: linear-gradient(#eee, #fff);
 }
-.table-header-rotated td {
-  width: 40px;
-  border-top: 1px solid #dddddd;
-  border-left: 1px solid #dddddd;
-  border-right: 1px solid #dddddd;
-  vertical-align: middle;
-  text-align: center;
-}
 
-.table-header-rotated th.rotate {
+table.table-header-rotated th.rotate {
   height: 80px;
   width: 40px;
   position: relative;
   padding: 0;
   font-size: 12px;
   line-height: 0.8;
+  font-family: monospace;
 }
 
-.table-header-rotated th.rotate > div {
+table.table-header-rotated th.rotate > div {
   position: relative;
   top: 0px;
   left: 40px;
@@ -87,7 +82,7 @@ table.dist-matrix th div.hover {
   border-right: 1px solid #ccc;
 }
 
-.table-header-rotated th.rotate span {
+table.table-header-rotated th.rotate span {
   transform:skew(45deg,0deg) rotate(315deg);
   position: absolute;
   bottom: 30px;
@@ -122,4 +117,23 @@ table.dist-matrix td span.absolute {
 
 div.tablediv {
   margin-top: 10px;
+}
+
+table.suspicious {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+table.suspicious th {
+  cursor: pointer;
+  padding: 6px;
+  border: 1px solid #ccc;
+}
+table.suspicious td {
+  padding: 6px;
+  border: 1px solid #ccc;
+}
+
+span.file {
+  font-family: monospace;
 }

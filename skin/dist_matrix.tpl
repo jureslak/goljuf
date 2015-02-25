@@ -1,4 +1,4 @@
-<h3>Directory: '{{dir}}'</h3>
+<h3>Directory: '<span class="file">{{dir}}</span>'</h3>
 
 <a class="btn btn-default showhide" id="toggle-table-{{dir}}"
    onclick="toggle_table('{{dir}}')">Skrij tabelo</a>
@@ -28,7 +28,7 @@
 %       cls = class_picker(matrix[i][j])
 %       title = "({}, {})".format(file_list[i], file_list[j])
         <td class="{{cls}}" title="{{title}}">
-          {{!"{0:.2f}<br><span class='absolute'>({0:.2f})</span>".format(matrix[i][j])}}
+          {{!"{0[1]:.2f}<br><span class='absolute'>({0[0]})</span>".format(matrix[i][j])}}
         </td>
 %     end
 %   end
@@ -38,16 +38,28 @@
 </table>
 </div>
 % if sumljivi:
-  <h3>Sumljivi:</h3>
-  <ul>
-% for a, b, score in sumljivi:
-  <li>
-    <span class="file fileleft">{{a}}</span> :
-    <span class="file fileright">{{b}}</span> ~
-    <span class="score">{{score}}</span>
-  </li>
-% end
-  </ul>
+<h3>Sumljivi (rel &#8804; {{treshold}}):</h3>
+  <table class="suspicious tablesorter">
+    <thead>
+% st = " title='Click to sort.'"
+      <th{{!st}}>File 1</th>
+      <th{{!st}}>File 2</th>
+      <th{{!st}}>Abs. score</th>
+      <th{{!st}}>Rel. score</th>
+      <th{{!st}}>View diff</th>
+    </thead>
+    <tbody>
+%   for a, b, score in sumljivi:
+      <tr>
+        <td><span class="file fileleft">{{a}}</span></td>
+        <td><span class="file fileright">{{b}}</span></td>
+        <td><span class="abs-score">{{score[0]}}</span></td>
+        <td><span class="rel-score">{{"{:.4f}".format(score[1])}}</span></td>
+        <td><span class="diff">diff</span></td>
+      </tr>
+%   end
+    </tbody>
+  </table>
 % else:
   <h3>Vse izgleda v redu!</h3>
 % end

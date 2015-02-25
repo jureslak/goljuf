@@ -46,6 +46,7 @@ function toggle_table(dir) {
     }
 }
 $(document).ready(function() {
+    // distance table stuff
     $("table.dist-matrix").delegate('td:not(.empty)','mouseover mouseleave', function(e) {
         var idx = $(this).index();
         var td0 = $(this).parent().children()[0];
@@ -60,4 +61,7 @@ $(document).ready(function() {
             $(div).removeClass("hover");
         }
     });
+
+    // suspicious table stuff
+    $(".suspicious").each(function() { $(this).tablesorter([4,0]); });
 });

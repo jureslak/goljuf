@@ -8,6 +8,7 @@
     <meta name="author" content="Goljuf 2.0">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="skin/jquery-2.1.3.min.js"></script>
+    <script src="skin/jquery.tablesorter.min.js"></script>
     <script src="skin/bootstrap/js/bootstrap.min.js"></script>
     <script src="skin/script.js"></script>
   </head>

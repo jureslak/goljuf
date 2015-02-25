@@ -23,6 +23,7 @@ class Goljuf(object):
 
     @staticmethod
     def kriterij(value):
+        value = value[1]
         if value >= 0.5: return "A"
         if value >= 0.3: return "B"
         if value >= 0.15: return "C"
@@ -61,7 +62,11 @@ class Goljuf(object):
         if stderr is not None:
             raise "Subproccess returned errors: " + stderr
 
-        distances = map(float, stdout.decode().split())
+        distances = stdout.decode().split()
+        for i in range(len(distances)):
+            s = distances[i].split("~")
+            distances[i] = (int(s[0]), float(s[1]))
+
         n = len(file_list)
         dist_matrix = [[0] * n for i in range(n)]
 
@@ -82,7 +87,7 @@ class Goljuf(object):
         self.suspicious = []
         for i in range(len(self.dist_matrix)):
             for j in range(i+1, len(self.dist_matrix)):
-                if self.dist_matrix[i][j] < self.treshold:
+                if self.dist_matrix[i][j][1] < self.treshold:
                     self.suspicious.append((self.file_list[i], self.file_list[j],
                                             self.dist_matrix[i][j]))
         self.suspicious.sort(key=lambda x:x[2])
@@ -122,25 +127,12 @@ class HtmlPrinter(object):
                 'file_list': goljuf.display_file_list,
                 'class_picker': Goljuf.kriterij,
                 'dir': dir,
-                'sumljivi': goljuf.suspicious})
+                'sumljivi': goljuf.suspicious,
+                'treshold': goljuf.treshold})
 
     def html(self):
         self.generate_goljuf_html()
         return bottle.template('skin/main', {'goljuf_data': self.goljuf_data})
-
-#      for i in range(len(dist_matrix)):
-#          for j in range(i+1, len(dist_matrix)):
-#              print(file_list[i], ':', file_list[j], '~', dist_matrix[i][j])
-
-def find_suspicious(file_list, dist_matrix, treshold):
-    shady = []
-    n = len(file_list)
-    for i in range(n):
-        for j in range(i+1, n):
-            if i == j: continue
-            if dist_matrix[i][j] < treshold:
-                shady.append((file_list[i], file_list[j], dist_matrix[i][j]))
-    return shady
 
 args = parser.parse_args()
 
@@ -154,8 +146,3 @@ for directory in args.directories:
 
 printer = HtmlPrinter(G)
 print(printer.html())
-
-#      display(dist_matrix, file_list)
-#      print("Suspisious files: ")
-#      for pair in find_suspicious(file_list, dist_matrix, args.treshold):
-#          print(pair)
