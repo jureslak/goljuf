@@ -45,6 +45,40 @@ function toggle_table(dir) {
         $(button_id).html("Pokaži tabelo");
     }
 }
+
+function diffUsingJS(s1, s2) {
+    // get the baseText and newText values from the two textboxes, and split them into lines
+    var base = difflib.stringAsLines(s1);
+    var newtxt = difflib.stringAsLines(s2);
+
+    // create a SequenceMatcher instance that diffs the two sets of lines
+    var sm = new difflib.SequenceMatcher(base, newtxt);
+
+    // get the opcodes from the SequenceMatcher instance
+    // opcodes is a list of 3-tuples describing what changes should be made to the base text
+    // in order to yield the new text
+    var opcodes = sm.get_opcodes();
+    var diffoutputdiv = document.getElementById("diffoutput");
+    console.log(diffoutputdiv)
+    while (diffoutputdiv.firstChild) diffoutputdiv.removeChild(diffoutputdiv.firstChild);
+    var contextSize = null;
+
+    // build the diff view and add it to the current DOM
+    diffoutputdiv.appendChild(diffview.buildView({
+        baseTextLines: base,
+        newTextLines: newtxt,
+        opcodes: opcodes,
+        // set the display titles for each resource
+        baseTextName: "Base Text",
+        newTextName: "New Text",
+        contextSize: contextSize,
+        viewType: $("inline").checked ? 1 : 0
+    }));
+
+    // scroll down to the diff view window.
+//     location = url + "#diff";
+}
+
 $(document).ready(function() {
     // distance table stuff
     $("table.dist-matrix").delegate('td:not(.empty)','mouseover mouseleave', function(e) {
@@ -64,4 +98,5 @@ $(document).ready(function() {
 
     // suspicious table stuff
     $(".suspicious").each(function() { $(this).tablesorter([4,0]); });
+
 });

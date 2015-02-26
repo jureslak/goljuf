@@ -41,21 +41,25 @@
 <h3>Sumljivi (rel &#8804; {{treshold}}):</h3>
   <table class="suspicious tablesorter">
     <thead>
+      <tr>
 % st = " title='Click to sort.'"
-      <th{{!st}}>File 1</th>
-      <th{{!st}}>File 2</th>
-      <th{{!st}}>Abs. score</th>
-      <th{{!st}}>Rel. score</th>
-      <th{{!st}}>View diff</th>
+        <th{{!st}}>File 1</th>
+        <th{{!st}}>File 2</th>
+        <th{{!st}}>Abs. score</th>
+        <th{{!st}}>Rel. score</th>
+        <th{{!st}}>View diff</th>
+      </tr>
     </thead>
     <tbody>
 %   for a, b, score in sumljivi:
       <tr>
-        <td><span class="file fileleft">{{a}}</span></td>
-        <td><span class="file fileright">{{b}}</span></td>
-        <td><span class="abs-score">{{score[0]}}</span></td>
-        <td><span class="rel-score">{{"{:.4f}".format(score[1])}}</span></td>
-        <td><span class="diff">diff</span></td>
+        <td class="fileleft"><a class="file" href="{{a}}">{{a}}</a></td>
+        <td class="fileright"><a class="file" href="{{b}}">{{b}}</a></td>
+        <td class="abs-score">{{score[0]}}</td>
+        <td class="rel-score">{{"{:.4f}".format(score[1])}}</td>
+        <td class="diff"><a class="diff"
+            onclick="diffUsingJS({{repr(file_contents[file_list.index(a)])}},{{repr(file_contents[file_list.index(b)])}});">
+            diff</a></td>
       </tr>
 %   end
     </tbody>

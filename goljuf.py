@@ -52,6 +52,7 @@ class Goljuf(object):
                 self.file_list.extend([os.path.join(dirpath, filename) for filename in files])
 
         self.file_list = sorted(filter(self.has_valid_extension, self.file_list))
+        self.file_contents_list = [open(x,'r').read() for x in self.file_list]
         return self.file_list
 
     def compare_files(self):
@@ -88,7 +89,7 @@ class Goljuf(object):
         for i in range(len(self.dist_matrix)):
             for j in range(i+1, len(self.dist_matrix)):
                 if self.dist_matrix[i][j][1] < self.treshold:
-                    self.suspicious.append((self.file_list[i], self.file_list[j],
+                    self.suspicious.append((self.display_file_list[i], self.display_file_list[j],
                                             self.dist_matrix[i][j]))
         self.suspicious.sort(key=lambda x:x[2])
 
@@ -104,7 +105,6 @@ class Goljuf(object):
     def investigate(self):
         self.make_file_list()
         self.compare_files()
-        self.extract_suspicious()
 
 
 class HtmlPrinter(object):
@@ -122,13 +122,15 @@ class HtmlPrinter(object):
         self.filename_strip()
         for dir in self.goljuf_data:
             goljuf = self.goljuf_data[dir]
+            goljuf.extract_suspicious()
             goljuf.html = bottle.template('skin/dist_matrix', {
                 'matrix': goljuf.dist_matrix,
                 'file_list': goljuf.display_file_list,
                 'class_picker': Goljuf.kriterij,
                 'dir': dir,
                 'sumljivi': goljuf.suspicious,
-                'treshold': goljuf.treshold})
+                'treshold': goljuf.treshold,
+                'file_contents': goljuf.file_contents_list})
 
     def html(self):
         self.generate_goljuf_html()

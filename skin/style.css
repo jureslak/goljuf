@@ -16,8 +16,8 @@ table.dist-matrix th {
   font-size: 12px;
 }
 table.dist-matrix td {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 36px;
   border: 1px solid #ccc;
   text-align: center;
   font-size: 12px;
@@ -99,6 +99,7 @@ hr {
 }
 
 a.file {
+  font-family: monospace;
   color: #333;
 }
 
@@ -128,12 +129,28 @@ table.suspicious th {
   cursor: pointer;
   padding: 6px;
   border: 1px solid #ccc;
+  background-color: #ccc;
+}
+table.suspicious tr:nth-child(even) {
+  background-color: #e5e5e5;
 }
 table.suspicious td {
   padding: 6px;
   border: 1px solid #ccc;
 }
-
-span.file {
-  font-family: monospace;
+table.suspicious td.fileleft,
+table.suspicious td.fileright {
+  font-size: 12px;
+}
+table.suspicious td.abs-score {
+  padding-left: 20px;
+}
+table.suspicious td.rel-score {
+  padding-left: 10px;
+}
+table.suspicious td.diff {
+  text-align: center;
+}
+a.diff {
+  cursor: pointer;
 }
