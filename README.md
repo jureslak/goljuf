@@ -54,7 +54,7 @@ The web UI has some fancy features:
 * hide all-green rows (non suspicious people)
 * hide the tables (they can be quite big)
 * sortable tables (click on headers)
-* direct diff view (double click on a cell, or `diff` link)
+* direct diff view (click on a cell, or `diff` link)
 * useful tooltips and highlighting
 
 ## Further work
