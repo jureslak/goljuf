@@ -25,14 +25,14 @@ $ python goljuf.py -r test test2 > out.html
 
 ### Options
 
-* **-e, --extensions** Specify list of allowed exceptions. Only files with this extension will be
+* **`-e, --extensions`** Specify list of allowed exceptions. Only files with this extension will be
   compared. Default: ['c', 'cpp'].
-* **-r, --recursive** If this option is present, each directory is searched exhaustively. Default:
+* **`-r, --recursive`** If this option is present, each directory is searched exhaustively. Default:
   off.
-* **-t, --treshold** Specify a treshold, all files with relative difference less of equal than this
+* **`-t, --treshold`** Specify a treshold, all files with relative difference less of equal than this
   are treated as suspicious. Default: 0.1.
-* **-f, --output_file** The output is printed to this file instead. Default: stdout.
-* **-x, --executable** Specify a path to your compiled executable. Default: `edit_distance`.
+* **`-f, --output_file`** The output is printed to this file instead. Default: stdout.
+* **`-x, --executable`** Specify a path to your compiled executable. Default: `edit_distance`.
 
 For a complete option set, run
 
