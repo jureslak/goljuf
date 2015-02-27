@@ -27,7 +27,8 @@ General form:
 ```
 python goljuf.py [-h] [-e EXT [EXT ...]] [-r] [-t TRESHOLD] [-f OUTPUT_FILE]
                  [-x EXECUTABLE]
-                 DIR [DIR ...]```
+                 DIR [DIR ...]
+```
 
 
 ### Options
