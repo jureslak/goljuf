@@ -24,6 +24,10 @@ table.dist-matrix td {
   vertical-align: middle;
 }
 
+table.dist-matrix td.data {
+  cursor: pointer;
+}
+
 table.dist-matrix td.empty,
 table.dist-matrix th.empty {
   background: repeating-linear-gradient(

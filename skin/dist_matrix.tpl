@@ -31,9 +31,11 @@
 %     if i == j:
         <td class='empty'></td>
 %     else:
+%       a = file_list[i]; b = file_list[j];
 %       cls = class_picker(matrix[i][j])
 %       title = "({}, {})".format(file_list[i], file_list[j])
-        <td class="{{cls}}" title="{{title}}">
+        <td class="{{cls}} data" title="{{title}}"
+            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}]);">
           {{!"{0[1]:.2f}<br><span class='absolute'>({0[0]})</span>".format(matrix[i][j])}}
         </td>
 %     end
@@ -57,7 +59,8 @@
       </tr>
     </thead>
     <tbody>
-%   for a, b, score in sumljivi:
+%   for i, j, score in sumljivi:
+%     a = file_list[i]; b = file_list[j];
       <tr>
         <td class="fileleft"><a class="file" href="{{a}}">{{a}}</a></td>
         <td class="fileright"><a class="file" href="{{b}}">{{b}}</a></td>

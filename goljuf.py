@@ -1,7 +1,8 @@
-import subprocess
 import argparse
-import os
 import bottle
+import os
+import subprocess
+import sys
 
 def dir_type(dirname):
     if not os.path.isdir(dirname):
@@ -18,6 +19,10 @@ parser.add_argument('-r', '--recursive', default=False, action='store_true', hel
     "compare ALL the files in the specified directories, including files from subdirectories"))
 parser.add_argument('-t', '--treshold', default=0.1, action='store', type=float, help=(
     "print files with relative distance below this as suspicious"))
+parser.add_argument('-f', '--output_file', default=sys.stdout, action='store',
+    type=argparse.FileType('w'), help=("path to the file for saving html output, eg. ../ui/display.html"))
+parser.add_argument('-x', '--executable', default='edit_distance', action='store', help=(
+    "path to the executable, eg. ../bin/calc_distance"))
 
 class Goljuf(object):
 
@@ -35,6 +40,7 @@ class Goljuf(object):
         self.directory = directory
         self.valid_extensions = list(options.extensions)
         self.treshold = float(options.treshold)
+        self.executable = options.executable;
 
     def has_valid_extension(self, filename):
         for ext in self.valid_extensions:
@@ -58,7 +64,7 @@ class Goljuf(object):
     def compare_files(self):
         file_list = self.file_list
 #          print(' '.join(['./edit_distance'] + file_list))
-        proc = subprocess.Popen(['./edit_distance'] + file_list, stdout=subprocess.PIPE);
+        proc = subprocess.Popen(['./' + self.executable] + file_list, stdout=subprocess.PIPE);
         stdout, stderr = proc.communicate()
         if stderr is not None:
             raise "Subproccess returned errors: " + stderr
@@ -89,8 +95,7 @@ class Goljuf(object):
         for i in range(len(self.dist_matrix)):
             for j in range(i+1, len(self.dist_matrix)):
                 if self.dist_matrix[i][j][1] < self.treshold:
-                    self.suspicious.append((self.display_file_list[i], self.display_file_list[j],
-                                            self.dist_matrix[i][j]))
+                    self.suspicious.append((i, j, self.dist_matrix[i][j]))
         self.suspicious.sort(key=lambda x:x[2])
 
     def __str__(self):
@@ -105,6 +110,7 @@ class Goljuf(object):
     def investigate(self):
         self.make_file_list()
         self.compare_files()
+        self.extract_suspicious()
 
 
 class HtmlPrinter(object):
@@ -122,7 +128,6 @@ class HtmlPrinter(object):
         self.filename_strip()
         for dir in self.goljuf_data:
             goljuf = self.goljuf_data[dir]
-            goljuf.extract_suspicious()
             goljuf.html = bottle.template('skin/dist_matrix', {
                 'matrix': goljuf.dist_matrix,
                 'file_list': goljuf.display_file_list,
@@ -147,4 +152,4 @@ for directory in args.directories:
     G[directory] = g
 
 printer = HtmlPrinter(G)
-print(printer.html())
+print(printer.html(), file=args.output_file)

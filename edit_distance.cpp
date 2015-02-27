@@ -1,13 +1,20 @@
-#include <iostream>
-#include <vector>
+#include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <cstdio>
 #include <fstream>
+#include <iostream>
 #include <string>
-#include <algorithm>
-#include <cctype>
+#include <vector>
 
-using namespace std;
+using std::cerr;
+using std::cout;
+using std::ifstream;
+using std::ios;
+using std::max;
+using std::min;
+using std::string;
+using std::vector;
 
 void read(const string& filename, string& content) {
     ifstream f(filename, ios::in);
@@ -26,9 +33,8 @@ void read(const string& filename, string& content) {
             content.append(1, c);
 }
 
-
 template<class T>
-int levenshtein_distance(const T& s1, const T&  s2) {
+int levenshtein_distance(const T& s1, const T& s2) {
     int len1 = s1.size(), len2 = s2.size();
     vector<unsigned int> col(len2+1), prevCol(len2+1);
 
