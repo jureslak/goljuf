@@ -50,7 +50,7 @@ The web UI has some fancy features:
 * useful tooltips and highlighting
 
 ## Further work
-There is romm for improvement in faster edit distance algorithms using Levenshtein automata.
+There is room for improvement in faster edit distance algorithms using Levenshtein automata.
 The UI could see some design improvements as well.
 
 Jure Slak
