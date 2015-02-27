@@ -1,3 +1,5 @@
+var files = {}; // for saving files, used in the dist_matrix.tpl
+
 function all_green(table_id, idx) {
     var vrsta = $(table_id + ' tr')[idx];
     var cool = true;
@@ -59,7 +61,6 @@ function diffUsingJS(s1, s2) {
     // in order to yield the new text
     var opcodes = sm.get_opcodes();
     var diffoutputdiv = document.getElementById("diffoutput");
-    console.log(diffoutputdiv)
     while (diffoutputdiv.firstChild) diffoutputdiv.removeChild(diffoutputdiv.firstChild);
     var contextSize = null;
 
@@ -69,14 +70,23 @@ function diffUsingJS(s1, s2) {
         newTextLines: newtxt,
         opcodes: opcodes,
         // set the display titles for each resource
-        baseTextName: "Base Text",
-        newTextName: "New Text",
+        baseTextName: "File 1",
+        newTextName: "File 2",
         contextSize: contextSize,
         viewType: $("inline").checked ? 1 : 0
     }));
 
+    console.log("Showing...")
+    $("#overlay").fadeIn();
+    $("#diff_window").fadeIn();
+
     // scroll down to the diff view window.
 //     location = url + "#diff";
+}
+
+function hide_overlay() {
+  $("#diff_window").fadeOut();
+  $("#overlay").fadeOut();
 }
 
 $(document).ready(function() {

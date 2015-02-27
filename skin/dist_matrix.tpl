@@ -1,5 +1,11 @@
 <h3>Directory: '<span class="file">{{dir}}</span>'</h3>
 
+<script>
+% for ime, contents in zip(file_list, file_contents):
+  files[{{!repr(ime)}}] = {{!repr(contents)}};
+% end
+</script>
+
 <a class="btn btn-default showhide" id="toggle-table-{{dir}}"
    onclick="toggle_table('{{dir}}')">Skrij tabelo</a>
 <a class="btn btn-default showhide" id="clean-table-{{dir}}"
@@ -58,7 +64,7 @@
         <td class="abs-score">{{score[0]}}</td>
         <td class="rel-score">{{"{:.4f}".format(score[1])}}</td>
         <td class="diff"><a class="diff"
-            onclick="diffUsingJS({{repr(file_contents[file_list.index(a)])}},{{repr(file_contents[file_list.index(b)])}});">
+            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}]);">
             diff</a></td>
       </tr>
 %   end
