@@ -23,6 +23,13 @@ A more useful demo:
 $ python goljuf.py -r test test2 > out.html
 ```
 
+General form:
+```
+python goljuf.py [-h] [-e EXT [EXT ...]] [-r] [-t TRESHOLD] [-f OUTPUT_FILE]
+                 [-x EXECUTABLE]
+                 DIR [DIR ...]```
+
+
 ### Options
 
 * **`-e, --extensions`** Specify list of allowed exceptions. Only files with this extension will be
