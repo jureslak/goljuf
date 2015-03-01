@@ -11,8 +11,9 @@ and you're all set!
 
 ## Usage
 
-Just run the Python script and specily a list of folders. All files directly within each of those
-folders will be compared. The output will be printed to the standard output.
+Just run the Python script and specily a list of folders. Some test folders are provided.
+All files directly within each of those folders will be compared. The output will be printed to the
+standard output.
 
 _Really_ basic usage:
 ```bash
