@@ -7,7 +7,7 @@ import sys
 def dir_type(dirname):
     if not os.path.isdir(dirname):
         raise argparse.ArgumentTypeError("'{}' is not a valid directory!".format(dirname))
-    return dirname
+    return dirname.rstrip('/')
 
 parser = argparse.ArgumentParser(description=(
     "Compare files within specified directories for similarity."))
@@ -126,13 +126,14 @@ class HtmlPrinter(object):
 
     def generate_goljuf_html(self):
         self.filename_strip()
-        for dir in self.goljuf_data:
+        for i, dir in enumerate(self.goljuf_data):
             goljuf = self.goljuf_data[dir]
             goljuf.html = bottle.template('skin/dist_matrix', {
                 'matrix': goljuf.dist_matrix,
                 'file_list': goljuf.display_file_list,
                 'class_picker': Goljuf.kriterij,
                 'dir': dir,
+                'dir_id': 'dirname{}'.format(i),
                 'sumljivi': goljuf.suspicious,
                 'treshold': goljuf.treshold,
                 'file_contents': goljuf.file_contents_list})
@@ -142,6 +143,13 @@ class HtmlPrinter(object):
         return bottle.template('skin/main', {'goljuf_data': self.goljuf_data})
 
 args = parser.parse_args()
+
+if not os.path.isfile(args.executable):
+    val = subprocess.call(['g++', '-o', 'edit_distance', '-O3', '--std=c++11', 'edit_distance.cpp'])
+    if val == 0:
+        args.executable = 'edit_distance'
+    else:
+        raise OSError("Executable {} not found! also failed to compile a new one.".format(args.executable))
 
 G = {}
 

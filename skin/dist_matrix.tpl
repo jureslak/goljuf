@@ -6,14 +6,14 @@
 % end
 </script>
 
-<a class="btn btn-default showhide" id="toggle-table-{{dir}}"
-   onclick="toggle_table('{{dir}}')">Skrij tabelo</a>
-<a class="btn btn-default showhide" id="clean-table-{{dir}}"
-   onclick="hide_green('{{dir}}')">Skrij zelene</a>
-<a class="btn btn-default showhide" id="unclean-table-{{dir}}"
-   onclick="show_green('{{dir}}')" style="display: none">Pokaži zelene</a>
-<div id='table-div-{{dir}}' class="tablediv">
-<table id='table-{{dir}}' class='dist-matrix table-header-rotated'>
+<a class="btn btn-default showhide" id="toggle-table-{{dir_id}}"
+   onclick="toggle_table('{{dir_id}}')">Skrij tabelo</a>
+<a class="btn btn-default showhide" id="clean-table-{{dir_id}}"
+   onclick="hide_green('{{dir_id}}')">Skrij zelene</a>
+<a class="btn btn-default showhide" id="unclean-table-{{dir_id}}"
+   onclick="show_green('{{dir_id}}')" style="display: none">Pokaži zelene</a>
+<div id='table-div-{{dir_id}}' class="tablediv">
+<table id='table-{{dir_id}}' class='dist-matrix table-header-rotated'>
   <thead><tr>
     <th class='first'></th>
 % for i in range(len(matrix)):

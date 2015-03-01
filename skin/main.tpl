@@ -22,8 +22,8 @@
 %    for dir in sorted(goljuf_data):
        {{!goljuf_data[dir].html}}
 %    end
-    <div id="overlay"><a class="btn btn-default" id="exit_diff" onclick="hide_overlay();">Zapri</a></div>
-    <div id="diff_window"><div id="diffoutput"></div></div>
+    <div id="overlay"><a class="btn btn-default" id="exit_diff" onclick="hide_overlay();">Zapri</a>
+    <div id="diff_window"><div id="diffoutput"></div></div></div>
     <footer>
       Goljuf 2.0, program za iskanje goljufov &ndash; ljudi s <i>preveč</i> podobnimi testi.
     </footer>
