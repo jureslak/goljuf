@@ -32,16 +32,25 @@ If the c++ executable is not found, the script will try to compile the cpp sourc
 done, it will use the executable to compare the files and print the HTML page to the standard
 output. See below for more details.
 
+When the output file is produced you can open it in your favourite browser.
+
+General form:
+```
+python goljuf.py [-h] [-e EXT [EXT ...]] [-r] [-t TRESHOLD] [-f OUTPUT_FILE]
+                 [-x EXECUTABLE]
+                 DIR [DIR ...]
+```
+
 ### Options
 
-* **-e, --extensions** Specify list of allowed exceptions. Only files with this extension will be
-  compared. Default: ['c', 'cpp'].
-* **-r, --recursive** If this option is present, each directory is searched exhaustively. Default:
+* **`-e, --extensions`** Specify list of allowed exceptions. Only files with this extension will be
+  compared. Default: `['c', 'cpp']`.
+* **`-r, --recursive`** If this option is present, each directory is searched exhaustively. Default:
   off.
-* **-t, --treshold** Specify a treshold, all files with relative difference less of equal than this
-  are treated as suspicious. Default: 0.1.
-* **-f, --output_file** The output is printed to this file instead. Default: stdout.
-* **-x, --executable** Specify a path to your compiled executable. Default: `edit_distance`.
+* **`-t, --treshold`** Specify a treshold, all files with relative difference less of equal than this
+  are treated as suspicious. Default: `0.1`.
+* **`-f, --output_file`** The output is printed to this file instead. Default: `stdout`.
+* **`-x, --executable`** Specify a path to your compiled executable. Default: `edit_distance`.
 
 For a complete option set, run
 
@@ -55,7 +64,7 @@ The web UI has some fancy features:
 * hide all-green rows (non suspicious people)
 * hide the tables (they can be quite big)
 * sortable tables (click on headers)
-* direct diff view (double click on a cell, or `diff` link)
+* direct diff view (click on a cell, or `diff` link)
 * useful tooltips and highlighting
 
 ## Further work
