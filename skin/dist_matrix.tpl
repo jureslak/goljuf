@@ -35,7 +35,7 @@
 %       cls = class_picker(matrix[i][j])
 %       title = "({}, {})".format(file_list[i], file_list[j])
         <td class="{{cls}} data" title="{{title}}"
-            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}]);">
+            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}], {{repr(a)}}, {{repr(b)}});">
           {{!"{0[1]:.2f}<br><span class='absolute'>({0[0]})</span>".format(matrix[i][j])}}
         </td>
 %     end
@@ -62,12 +62,12 @@
 %   for i, j, score in sumljivi:
 %     a = file_list[i]; b = file_list[j];
       <tr>
-        <td class="fileleft"><a class="file" href="{{a}}">{{a}}</a></td>
-        <td class="fileright"><a class="file" href="{{b}}">{{b}}</a></td>
+        <td class="fileleft"><a class="file" href="{{dir}}/{{a}}">{{a}}</a></td>
+        <td class="fileright"><a class="file" href="{{dir}}/{{b}}">{{b}}</a></td>
         <td class="abs-score">{{score[0]}}</td>
         <td class="rel-score">{{"{:.4f}".format(score[1])}}</td>
         <td class="diff"><a class="diff"
-            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}]);">
+            onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}], {{repr(a)}}, {{repr(b)}});">
             diff</a></td>
       </tr>
 %   end

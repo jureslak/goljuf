@@ -36,6 +36,12 @@ function show_green(dir) {
     $("#unclean-table-"+dir).hide();
 }
 
+$(document).on('keydown', function(e) {
+    if (e.keyCode === 27) {  // ESC
+        hide_overlay();
+    }
+});
+
 function toggle_table(dir) {
     var table_id = '#table-div-'+dir;
     var button_id = '#toggle-table-'+dir;
@@ -48,7 +54,7 @@ function toggle_table(dir) {
     }
 }
 
-function diffUsingJS(s1, s2) {
+function diffUsingJS(s1, s2, name1, name2) {
     // get the baseText and newText values from the two textboxes, and split them into lines
     var base = difflib.stringAsLines(s1);
     var newtxt = difflib.stringAsLines(s2);
@@ -70,13 +76,12 @@ function diffUsingJS(s1, s2) {
         newTextLines: newtxt,
         opcodes: opcodes,
         // set the display titles for each resource
-        baseTextName: "File 1",
-        newTextName: "File 2",
+        baseTextName: name1,
+        newTextName: name2,
         contextSize: contextSize,
         viewType: $("inline").checked ? 1 : 0
     }));
 
-    console.log("Showing...")
     $("#overlay").fadeIn();
     $("#diff_window").fadeIn();
 
