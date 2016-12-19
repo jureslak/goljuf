@@ -17,7 +17,7 @@ parser.add_argument('-e', '--extensions', metavar='EXT', nargs='+',
     default=['c', 'cpp'], help=("only files with specified extensions are compared."))
 parser.add_argument('-r', '--recursive', default=False, action='store_true', help=(
     "compare ALL the files in the specified directories, including files from subdirectories"))
-parser.add_argument('-t', '--treshold', default=0.1, action='store', type=float, help=(
+parser.add_argument('-t', '--treshold', default=0.2, action='store', type=float, help=(
     "print files with relative distance below this as suspicious"))
 parser.add_argument('-f', '--output_file', default=sys.stdout, action='store',
     type=argparse.FileType('w'), help=("path to the file for saving html output, eg. ../ui/display.html"))
@@ -29,10 +29,10 @@ class Goljuf(object):
     @staticmethod
     def kriterij(value):
         value = value[1]
-        if value >= 0.5: return "A"
+        if value >= 0.4: return "A"
         if value >= 0.3: return "B"
-        if value >= 0.15: return "C"
-        if value >= 0.05: return "D"
+        if value >= 0.2: return "C"
+        if value >= 0.1: return "D"
         return "E"
 
     def __init__(self, directory, options):
