@@ -58,7 +58,12 @@ class Goljuf(object):
                 self.file_list.extend([os.path.join(dirpath, filename) for filename in files])
 
         self.file_list = sorted(filter(self.has_valid_extension, self.file_list))
-        self.file_contents_list = [open(x,'r').read() for x in self.file_list]
+        self.file_contents_list = []
+        for x in self.file_list:
+            try:
+                self.file_contents_list.append(open(x, 'r', encoding='utf-8').read())
+            except UnicodeDecodeError:
+                self.file_contents_list.append(open(x, 'r', encoding='windows-1250').read())
         return self.file_list
 
     def compare_files(self):
@@ -149,15 +154,14 @@ if not os.path.isfile(args.executable):
     if val == 0:
         args.executable = 'edit_distance'
     else:
-        raise OSError("Executable {} not found! also failed to compile a new one.".format(args.executable))
+        raise OSError("Executable {} not found! Also failed to compile a new one.".format(args.executable))
 
 G = {}
-
 for directory in args.directories:
     g = Goljuf(directory, args)
     g.investigate()
-
     G[directory] = g
 
 printer = HtmlPrinter(G)
 print(printer.html(), file=args.output_file)
+print("Saved report to {}.".format(args.output_file.name))
