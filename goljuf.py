@@ -57,6 +57,11 @@ class Goljuf(object):
             for dirpath, dirs, files in os.walk(self.directory):
                 self.file_list.extend([os.path.join(dirpath, filename) for filename in files])
 
+        size = len(self.file_list)
+        self.file_list = [name for name in self.file_list if os.stat(name).st_size > 0]
+        empty = size - len(self.file_list)
+        if empty:
+            print("[note]", "Ignoring {} empty files.".format(empty))
         self.file_list = sorted(filter(self.has_valid_extension, self.file_list))
         self.file_contents_list = []
         for x in self.file_list:
