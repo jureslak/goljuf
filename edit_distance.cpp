@@ -4,7 +4,9 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <omp.h>
 #include <string>
+#include <tuple>
 #include <vector>
 
 using std::cerr;
@@ -14,7 +16,9 @@ using std::ifstream;
 using std::ios;
 using std::max;
 using std::min;
+using std::pair;
 using std::string;
+using std::tie;
 using std::vector;
 
 string remove_whitespace(const string& s) {
@@ -36,7 +40,7 @@ string remove_whitespace(const string& s) {
     return r;
 }
 
-string remove_comments(const string& s) {
+string remove_cpp_comments(const string& s) {
     int i = 0;
     int n = s.size();
     char c;
@@ -104,7 +108,7 @@ string read(const string& filename) {
 
     string s;
     getline (f, s, '\0');
-    string nc = remove_comments(s);
+    string nc = remove_cpp_comments(s);
     string np = remove_preprocessor(nc);
     string nw = remove_whitespace(np);
     return nw;
@@ -129,24 +133,34 @@ int main(int argv, char** argc) {
     assert(argv >= 3);
 
     int num_of_files = argv - 1;
-    fprintf(stderr, "Reading files...\n");
+    cerr << "Reading files..." << endl;
     vector<string> files(num_of_files);
     for (int i = 0; i < num_of_files; ++i) {
         files[i] = read(argc[i + 1]);
     }
-    fprintf(stderr, "Comparing files...\n");
+    cerr << "Comparing files..." << endl;
     int c = 0;
     int total = num_of_files * (num_of_files - 1) / 2;
+    vector<pair<int, int>> pairs(total);
     for (int i = 0; i < num_of_files; ++i) {
         for (int j = i + 1; j < num_of_files; ++j) {
-            c++;
-            fprintf(stderr, "\r%d / %d = %.2f %%  ", c, total, 100.0 * c / total);
-            double dist = levenshtein_distance(files[i], files[j]);
-            double rel_dist = (dist) / max(files[i].size(), files[j].size());
-            cout << dist << '~' << rel_dist << '\n';
+            pairs[c++] = {i, j};
         }
     }
-    fprintf(stderr, "\nDone.\n");
+    vector<pair<double, double>> result(total);
+    #pragma omp parallel for
+    for (int k = 0; k < total; ++k) {
+        int i, j;
+        tie(i, j) = pairs[k];
+        double dist = levenshtein_distance(files[i], files[j]);
+        double rel_dist = (dist) / max(files[i].size(), files[j].size());
+        result[k] = {dist, rel_dist};
+    }
+    for (const auto& p : result) {
+        cout << p.first << '~' << p.second << '\n';
+    }
+    cout.flush();
+    cerr << "Done." << endl;
 
     return 0;
 }

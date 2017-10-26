@@ -51,7 +51,7 @@ class Goljuf(object):
     def make_file_list(self):
         if not self.recursive:
             self.file_list = [os.path.join(self.directory, filename) for filename in os.listdir(self.directory)]
-            self.file_list = filter(os.path.isfile, self.file_list)
+            self.file_list = list(filter(os.path.isfile, self.file_list))
         else:
             self.file_list = []
             for dirpath, dirs, files in os.walk(self.directory):
