@@ -155,7 +155,7 @@ class HtmlPrinter(object):
 args = parser.parse_args()
 
 if not os.path.isfile(args.executable):
-    val = subprocess.call(['g++', '-o', 'edit_distance', '-O3', '--std=c++11', 'edit_distance.cpp'])
+    val = subprocess.call(['g++', '-o', 'edit_distance', '-O3', '--std=c++11', '-fopenmp', 'edit_distance.cpp'])
     if val == 0:
         args.executable = 'edit_distance'
     else:
