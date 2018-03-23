@@ -59,6 +59,9 @@ table.dist-matrix td.D {
 table.dist-matrix td.E {
   background-color: #FFB17E;
 }
+table.dist-matrix td.F {
+  background-color: #ff9999;
+}
 table.dist-matrix th.hover {
   background: linear-gradient(to right, #eee, #fff);
 }

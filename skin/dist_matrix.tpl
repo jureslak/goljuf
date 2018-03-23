@@ -18,14 +18,14 @@
     <th class='first'></th>
 % for i in range(len(matrix)):
       <th class='rotate'><div><span>
-        <a class="file" href="{{dir}}/{{file_list[i]}}">{{file_list[i]}}</a>
+        <a class="file" href="{{file_list[i]}}">{{display_file_list[i]}}</a>
       </span></div></th>
 % end
   </tr></thead>
   <tbody>
 % for i in range(len(matrix)):
   <tr><th class='levo'>
-      <a class="file" href="{{dir}}/{{file_list[i]}}">{{file_list[i]}}</a>
+      <a class="file" href="{{file_list[i]}}">{{display_file_list[i]}}</a>
     </th>
 %   for j in range(len(matrix[i])):
 %     if i == j:
@@ -33,7 +33,7 @@
 %     else:
 %       a = file_list[i]; b = file_list[j];
 %       cls = class_picker(matrix[i][j])
-%       title = "({}, {})".format(file_list[i], file_list[j])
+%       title = "({}, {})".format(display_file_list[i], display_file_list[j])
         <td class="{{cls}} data" title="{{title}}"
             onclick="diffUsingJS(files[{{repr(a)}}], files[{{repr(b)}}], {{repr(a)}}, {{repr(b)}});">
           {{!"{0[1]:.2f}<br><span class='absolute'>({0[0]})</span>".format(matrix[i][j])}}
@@ -46,7 +46,7 @@
 </table>
 </div>
 % if sumljivi:
-<h3>Sumljivi (rel &#8804; {{treshold}}):</h3>
+<h3>Sumljivi (rel &#8804; {{threshold}}):</h3>
   <table class="suspicious tablesorter">
     <thead>
       <tr>
@@ -60,7 +60,7 @@
     </thead>
     <tbody>
 %   for i, j, score in sumljivi:
-%     a = file_list[i]; b = file_list[j];
+%     a = display_file_list[i]; b = display_file_list[j];
       <tr>
         <td class="fileleft"><a class="file" href="{{dir}}/{{a}}">{{a}}</a></td>
         <td class="fileright"><a class="file" href="{{dir}}/{{b}}">{{b}}</a></td>

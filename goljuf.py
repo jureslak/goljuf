@@ -17,7 +17,7 @@ parser.add_argument('-e', '--extensions', metavar='EXT', nargs='+',
     default=['c', 'cpp'], help=("only files with specified extensions are compared."))
 parser.add_argument('-r', '--recursive', default=False, action='store_true', help=(
     "compare ALL the files in the specified directories, including files from subdirectories"))
-parser.add_argument('-t', '--treshold', default=0.2, action='store', type=float, help=(
+parser.add_argument('-t', '--threshold', default=0.2, action='store', type=float, help=(
     "print files with relative distance below this as suspicious"))
 parser.add_argument('-f', '--output_file', default=sys.stdout, action='store',
     type=argparse.FileType('w'), help=("path to the file for saving html output, eg. ../ui/display.html"))
@@ -33,13 +33,14 @@ class Goljuf(object):
         if value >= 0.3: return "B"
         if value >= 0.2: return "C"
         if value >= 0.1: return "D"
-        return "E"
+        if value > 0: return "E"
+        return "F"
 
     def __init__(self, directory, options):
         self.recursive = bool(options.recursive)
         self.directory = directory
         self.valid_extensions = list(options.extensions)
-        self.treshold = float(options.treshold)
+        self.threshold = float(options.threshold)
         self.executable = options.executable;
 
     def has_valid_extension(self, filename):
@@ -69,6 +70,10 @@ class Goljuf(object):
                 self.file_contents_list.append(open(x, 'r', encoding='utf-8').read())
             except UnicodeDecodeError:
                 self.file_contents_list.append(open(x, 'r', encoding='windows-1250').read())
+            tomo_token = "# ============================================================================@\n\n\'"
+            idx = self.file_contents_list[-1].find(tomo_token)
+            if idx != -1:
+                self.file_contents_list[-1] = self.file_contents_list[-1][:idx].strip()
         return self.file_list
 
     def compare_files(self):
@@ -93,6 +98,10 @@ class Goljuf(object):
             if k == n:
                 j += 1
                 k = j + 1
+            if (("NEVELJAVNA REŠITEV" in self.file_contents_list[j]
+                    or "NEVELJAVNA REŠITEV" in self.file_contents_list[k])
+                    and dist[1] < self.threshold):
+                dist = (0, 0)
             dist_matrix[j][k] = dist
             dist_matrix[k][j] = dist
             k += 1
@@ -104,7 +113,7 @@ class Goljuf(object):
         self.suspicious = []
         for i in range(len(self.dist_matrix)):
             for j in range(i+1, len(self.dist_matrix)):
-                if self.dist_matrix[i][j][1] < self.treshold:
+                if self.dist_matrix[i][j][1] < self.threshold:
                     self.suspicious.append((i, j, self.dist_matrix[i][j]))
         self.suspicious.sort(key=lambda x:x[2])
 
@@ -128,24 +137,26 @@ class HtmlPrinter(object):
         self.goljuf_data = goljuf_data
 
     def filename_strip(self):
-        for dir in self.goljuf_data:
-            goljuf = self.goljuf_data[dir]
+        for directory in self.goljuf_data:
+            goljuf = self.goljuf_data[directory]
             goljuf.display_file_list = []
-            for file in goljuf.file_list:
-                goljuf.display_file_list.append(file[len(dir)+1:])
+            for filename in goljuf.file_list:
+                goljuf.display_file_list.append(filename[len(directory)+1:])
 
     def generate_goljuf_html(self):
         self.filename_strip()
-        for i, dir in enumerate(self.goljuf_data):
-            goljuf = self.goljuf_data[dir]
+
+        for i, directory in enumerate(self.goljuf_data):
+            goljuf = self.goljuf_data[directory]
             goljuf.html = bottle.template('skin/dist_matrix', {
                 'matrix': goljuf.dist_matrix,
-                'file_list': goljuf.display_file_list,
+                'file_list': goljuf.file_list,
+                'display_file_list': goljuf.display_file_list,
                 'class_picker': Goljuf.kriterij,
-                'dir': dir,
+                'dir': directory,
                 'dir_id': 'dirname{}'.format(i),
                 'sumljivi': goljuf.suspicious,
-                'treshold': goljuf.treshold,
+                'threshold': goljuf.threshold,
                 'file_contents': goljuf.file_contents_list})
 
     def html(self):
@@ -163,6 +174,7 @@ if not os.path.isfile(args.executable):
 
 G = {}
 for directory in args.directories:
+    print("Processing directory:", directory)
     g = Goljuf(directory, args)
     g.investigate()
     G[directory] = g
